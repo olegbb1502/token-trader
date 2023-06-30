@@ -133,7 +133,7 @@ const testWallet = async (wallet) => {
     const address = Object.keys(wallet)[0];
     const now = new Date();
     const subtractedDate = new Date(now.getTime() - TX_INTERVAL_MINUTES * 60000);
-    const begin_timestamp = Math.floor(subtractedDate.getTime() / 1000);
+    // const begin_timestamp = Math.floor(subtractedDate.getTime() / 1000);
 
     let message = '';
 
@@ -142,7 +142,7 @@ const testWallet = async (wallet) => {
         order: 'asc',
         limit: '100',
         offset: '0',
-        begin_timestamp: begin_timestamp,
+        // begin_timestamp: begin_timestamp,
         chain_id: '1',
         wallet_address: address
     };
