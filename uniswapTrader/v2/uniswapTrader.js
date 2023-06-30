@@ -85,7 +85,7 @@ class UniswapTrader {
     const isETH = [WETH.toLowerCase(), connectedWallet.address.toLowerCase()].includes(this.address0);
 
     // let amountIn = this.amountIn;
-    let tokenOutBalance = 0.03;
+    let tokenOutBalance = 0.02;
     let tokenInBalance = 1;
     let tokenOutDecimals = 18;
     let tokenInDecimals = 18;
