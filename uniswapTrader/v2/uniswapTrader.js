@@ -116,8 +116,8 @@ class UniswapTrader {
         tokenInBalance = await getTokenBalance(tokenContract1, connectedWallet);
         tokenInDecimals = await getTokenDecimals(tokenContract1);
     }
-    // if (tokenOutBalance <= 0.03) return {status: 404};
-    if (tokenOutBalance <= 0.03 || (this.address0 === WETH && tokenOutBalance <= 9999.7)) return {status: 404};
+    if (tokenOutBalance <= 0.03) return {status: 404};
+    // if (tokenOutBalance <= 0.03 || (this.address0 === WETH && tokenOutBalance <= 9999.7)) return {status: 404};
 
     const swapRouterContract = new ethers.Contract(
         this.UNISWAP_SWAP_ROUTER_ADDRESS,
