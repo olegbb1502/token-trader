@@ -106,7 +106,7 @@ const swapMessage = (params) => {
 const doSwap = async (tokens) => {
 
     const {
-        TEST_RPC_URL,
+        MAINNET_RPC_URL,
         WALLET_ADDRESS,
         WALLET_SECRET,
         UNISWAP_SWAP_ROUTER_ADDRESS_V2: UNISWAP_SWAP_ROUTER_ADDRESS,
@@ -116,7 +116,7 @@ const doSwap = async (tokens) => {
     const traderParams = {
         address0: tokens.tokenOut,
         address1: tokens.tokenIn,
-        TEST_RPC_URL,
+        TEST_RPC_URL: MAINNET_RPC_URL,
         WALLET_ADDRESS,
         WALLET_SECRET,
         UNISWAP_SWAP_ROUTER_ADDRESS,
