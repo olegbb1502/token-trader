@@ -1,0 +1,7 @@
+.env
+node_modules/
+package-lock.json
+hardhat.config.js
+cache/
+wallets.all.tsv
+getswaps.js
