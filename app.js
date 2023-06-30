@@ -211,7 +211,7 @@ const callTestWallet = async () => {
             await updateTokens(tokens);
     }
 
-    console.log('Circle\n\n');
+    // console.log('Circle\n\n');
 };
   
   // Call the function immediately
