@@ -151,7 +151,6 @@ class UniswapTrader {
             )
     }
     const wait = await swap.wait();
-    console.log(wait);
     return {
         status: wait.status,
         // value: parseFloat(swap.value)

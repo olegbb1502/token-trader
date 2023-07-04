@@ -6,7 +6,7 @@ require('dotenv').config()
 
 const DEXGURU_API_KEY = process.env.DEXGURU_API_KEY;
 const SCHEDULE_MINUTES = 0.3
-const TX_INTERVAL_MINUTES = 15
+const TX_INTERVAL_MINUTES = 5
 const filePath = './wallets.tsv'
 
 const filteredTokens = [
@@ -53,7 +53,7 @@ const getTokens = async () => {
         const data = fs.readFileSync('tokens.txt', 'utf8');
     
         // Process the TSV data
-        const tokensList = data.replace(/\n/g,'').split(',');
+        const tokensList = data.split(',').filter(v => v !== '');
         tokens = tokensList;
         // return tokensList;
       } catch (err) {
@@ -109,6 +109,7 @@ const doSwap = async (tokens) => {
         MAINNET_RPC_URL,
         WALLET_ADDRESS,
         WALLET_SECRET,
+        TEST_RPC_URL,
         UNISWAP_SWAP_ROUTER_ADDRESS_V2: UNISWAP_SWAP_ROUTER_ADDRESS,
         UNISWAP_FACTORY_ADDRESS_V2: UNISWAP_FACTORY_ADDRESS
     } = process.env
@@ -116,7 +117,7 @@ const doSwap = async (tokens) => {
     const traderParams = {
         address0: tokens.tokenOut,
         address1: tokens.tokenIn,
-        TEST_RPC_URL: MAINNET_RPC_URL,
+        TEST_RPC_URL,
         WALLET_ADDRESS,
         WALLET_SECRET,
         UNISWAP_SWAP_ROUTER_ADDRESS,
@@ -139,7 +140,7 @@ const testWallet = async (wallet) => {
 
     const params = {
         sort_by: 'timestamp',
-        order: 'asc',
+        order: 'desc',
         limit: '100',
         offset: '0',
         begin_timestamp: begin_timestamp,
@@ -153,14 +154,15 @@ const testWallet = async (wallet) => {
             const { 
                 tokens_in,
                 tokens_out,
-                amm
+                amm,
+                transaction_address
             } = swap;
             const tokenIn = tokens_in[0].address;
             if (!tokens.includes(tokenIn)) {
                 const tokenOut = tokens_out[0].address;
                 if (!filteredTokens.includes(tokenOut) || !filteredTokens.includes(tokenIn)) {
                     const { status } = await doSwap({tokenIn, tokenOut});
-                    console.log(amm, tokens_out[0]['symbol'], tokens_out[0]['address'], tokens_in[0]['symbol'], tokens_in[0]['address'], status);
+                    console.log(transaction_address, amm, tokens_out[0]['symbol'], tokens_out[0]['address'], tokens_in[0]['symbol'], tokens_in[0]['address'], status);
                     message = swapMessage({
                         wallet: address,
                         tokenIn: tokens_in[0],
@@ -169,7 +171,7 @@ const testWallet = async (wallet) => {
                     });
                     if (status === 1 && !reservedTokens.includes(tokenIn))
                         tokens.push(tokenIn)
-                    else if (status === 1 && reservedTokens.includes(tokenOut)) {
+                    else if (status === 1 && tokens.includes(tokenOut) && !reservedTokens.includes(tokenIn)) {
                         const index = tokens.indexOf(tokenIn);
                         tokens = tokens.splice(index, 1);
                     }
